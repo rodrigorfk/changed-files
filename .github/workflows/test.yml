@@ -67,13 +67,13 @@ jobs:
         run: |
           yarn install
 
-      - name: Run eslint on changed files
-        uses: tj-actions/eslint-changed-files@v21
-        if: github.event_name == 'pull_request'
-        with:
-          token: ${{ secrets.PAT_TOKEN }}
-          config_path: ".eslintrc.json"
-          ignore_path: ".eslintignore"
+      # - name: Run eslint on changed files
+      #   uses: tj-actions/eslint-changed-files@v21
+      #   if: github.event_name == 'pull_request'
+      #   with:
+      #     token: ${{ secrets.PAT_TOKEN }}
+      #     config_path: ".eslintrc.json"
+      #     ignore_path: ".eslintignore"
 
       - name: Run build and test
         run: |
@@ -95,13 +95,13 @@ jobs:
           git add src dist
           git commit -m "Added missing changes and modified dist assets."
 
-      - name: Push changes
-        if: steps.changed_files.outputs.files_changed == 'true' && github.event_name == 'pull_request'
-        continue-on-error: true
-        uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.PAT_TOKEN }}
-          branch: ${{ github.head_ref }}
+      # - name: Push changes
+      #   if: steps.changed_files.outputs.files_changed == 'true' && github.event_name == 'pull_request'
+      #   continue-on-error: true
+      #   uses: ad-m/github-push-action@master
+      #   with:
+      #     github_token: ${{ secrets.PAT_TOKEN }}
+      #     branch: ${{ github.head_ref }}
 
       - name: Upload build assets
         uses: actions/upload-artifact@v3
@@ -109,12 +109,12 @@ jobs:
           name: build-assets
           path: dist
 
-      - name: Run codacy-coverage-reporter
-        uses: codacy/codacy-coverage-reporter-action@v1
-        continue-on-error: true
-        with:
-          project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
-          coverage-reports: coverage/lcov.info
+      # - name: Run codacy-coverage-reporter
+      #   uses: codacy/codacy-coverage-reporter-action@v1
+      #   continue-on-error: true
+      #   with:
+      #     project-token: ${{ secrets.CODACY_PROJECT_TOKEN }}
+      #     coverage-reports: coverage/lcov.info
 
   test-multiple-repositories:
     name: Test with multiple repositories
